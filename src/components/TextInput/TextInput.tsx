@@ -1,7 +1,7 @@
-import { memo } from "react";
-import { ECarFieldNames, ECarsFormFieldNames, TCarsForm } from "../../types";
-import { useController, useFormContext } from "react-hook-form";
-import { Input, Typography } from "antd";
+import { memo } from 'react';
+import { ECarFieldNames, ECarsFormFieldNames, TCarsForm } from '../../types';
+import { useController, useFormContext } from 'react-hook-form';
+import { Input, Typography } from 'antd';
 
 type TTextInputProps = {
   name: `${ECarsFormFieldNames.CARS}.${number}.${ECarFieldNames}`;
@@ -32,5 +32,5 @@ export const TextInput = memo<TTextInputProps>(
         )}
       </>
     );
-  }
+  },
 );

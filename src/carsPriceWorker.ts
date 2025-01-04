@@ -1,5 +1,5 @@
-import { modificationsCost } from "./__mocks__/data";
-import { ECarFieldNames, TCarFormRow } from "./types";
+import { modificationsCost } from './__mocks__/data';
+import { ECarFieldNames, TCarFormRow } from './types';
 
 self.onmessage = (event) => {
   const totalCost = (event.data as TCarFormRow[]).reduce(
@@ -9,9 +9,9 @@ self.onmessage = (event) => {
       car[ECarFieldNames.MODIFICATIONS].reduce(
         (costForModifications, modification) =>
           costForModifications + modificationsCost[modification],
-        0
+        0,
       ),
-    0
+    0,
   );
 
   postMessage(totalCost);

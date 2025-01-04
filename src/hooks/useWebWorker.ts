@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { TCarFormRow } from "../types";
+import { useEffect, useState } from 'react';
+import { TCarFormRow } from '../types';
 
 export function useWebWorker(data: TCarFormRow[]) {
   const [result, setResult] = useState<number>(0);
@@ -7,11 +7,12 @@ export function useWebWorker(data: TCarFormRow[]) {
 
   useEffect(() => {
     const worker = new Worker(
-      new URL("../carsPriceWorker.ts", import.meta.url),
+      new URL('../carsPriceWorker.ts', import.meta.url),
       {
-        type: "module",
-      }
+        type: 'module',
+      },
     );
+    setLoading(true);
 
     worker.postMessage(data);
 
@@ -22,7 +23,7 @@ export function useWebWorker(data: TCarFormRow[]) {
     };
 
     worker.onerror = (error) => {
-      console.error("Worker error:", error);
+      console.error('Worker error:', error);
       setLoading(false);
       worker.terminate();
     };

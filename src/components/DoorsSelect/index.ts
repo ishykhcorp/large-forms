@@ -1,1 +1,1 @@
-export { DoorsSelect } from "./DoorsSelect";
+export { DoorsSelect } from './DoorsSelect';

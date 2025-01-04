@@ -1,23 +1,23 @@
-import { memo, useCallback } from "react";
+import { memo, useCallback } from 'react';
 import {
   doorLimits,
   ECarFieldNames,
   ECarsFormFieldNames,
   TCarsForm,
-} from "../../types";
+} from '../../types';
 import {
   doorLimitsByCarType,
   transformArrayToSelectOptions,
-} from "../../__mocks__/data";
-import { SelectFormField } from "../SelectFormField";
-import { useFormContext, useWatch } from "react-hook-form";
+} from '../../__mocks__/data';
+import { SelectFormField } from '../SelectFormField';
+import { useFormContext, useWatch } from 'react-hook-form';
 
 type DoorsSelectProps = {
   index: number;
 };
 
 const doorsOptions = transformArrayToSelectOptions(
-  Array.of(...doorLimits).map(String)
+  Array.of(...doorLimits).map(String),
 );
 
 export const DoorsSelect = memo<DoorsSelectProps>(({ index }) => {
@@ -40,7 +40,7 @@ export const DoorsSelect = memo<DoorsSelectProps>(({ index }) => {
       }
       return result;
     },
-    [carType]
+    [carType],
   );
 
   return (

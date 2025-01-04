@@ -1,53 +1,76 @@
 import {
   generateCarsData,
   transformArrayToSelectOptions,
-} from "./__mocks__/data";
-import "./App.css";
-import { Button, Form, Table, TableProps } from "antd";
+} from './__mocks__/data';
+import './App.css';
+import { Button, Form, Table, TableProps } from 'antd';
 import {
   carTypes,
-  doorLimits,
   ECarFieldNames,
   ECarsFormFieldNames,
   modifications,
   TCarFormRow,
   TCarsForm,
-} from "./types";
-import { FormProvider, useFieldArray, useForm } from "react-hook-form";
-import { CostWithModificationColumn } from "./components/CostWithModificationColumn";
-import { NumberInput } from "./components/NumberInput";
-import { SelectFormField } from "./components/SelectFormField";
-import { TextInput } from "./components/TextInput";
-import { TableFooter } from "./components/TableFooter";
-import { useCallback } from "react";
-import { DoorsSelect } from "./components/DoorsSelect";
-
-const data = generateCarsData(8000);
+} from './types';
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
+import { CostWithModificationColumn } from './components/CostWithModificationColumn';
+import { NumberInput } from './components/NumberInput';
+import { SelectFormField } from './components/SelectFormField';
+import { TextInput } from './components/TextInput';
+import { TableFooter } from './components/TableFooter';
+import { useCallback, useEffect, useState } from 'react';
+import { DoorsSelect } from './components/DoorsSelect';
 
 const modificationOptions = transformArrayToSelectOptions(
-  Array.of(...modifications)
+  Array.of(...modifications),
 );
+
+const getMockResponse = () =>
+  new Promise<TCarFormRow[]>((resolve) => {
+    setTimeout(() => {
+      resolve(generateCarsData(8000));
+    }, 1000);
+  });
 
 const carTypesOptions = transformArrayToSelectOptions(Array.of(...carTypes));
 
 function App() {
   const formMethods = useForm<TCarsForm>({
     defaultValues: {
-      [ECarsFormFieldNames.CARS]: data,
+      [ECarsFormFieldNames.CARS]: [],
     },
   });
+  const [isLoading, setLoading] = useState(false);
+
+  const { reset } = formMethods;
+
+  const fetchData = useCallback(() => {
+    (async () => {
+      setLoading(true);
+      const data = await getMockResponse();
+
+      reset({
+        [ECarsFormFieldNames.CARS]: data,
+      });
+      setLoading(false);
+    })();
+  }, [reset]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const { fields, remove } = useFieldArray({
     control: formMethods.control,
     name: ECarsFormFieldNames.CARS,
   });
 
-  const columns: TableProps<TCarFormRow>["columns"] = [
+  const columns: TableProps<TCarFormRow>['columns'] = [
     {
-      title: "Vin Number",
+      title: 'Vin Number',
       dataIndex: ECarFieldNames.VIN_NUMBER,
       width: 150,
-      fixed: "left",
+      fixed: 'left',
       render: (_, __, index) => (
         <TextInput
           name={`${ECarsFormFieldNames.CARS}.${index}.${ECarFieldNames.VIN_NUMBER}`}
@@ -57,7 +80,7 @@ function App() {
       ),
     },
     {
-      title: "Car Type",
+      title: 'Car Type',
       dataIndex: ECarFieldNames.CAR_TYPE,
       width: 100,
       render: (_, __, index) => (
@@ -70,13 +93,13 @@ function App() {
       ),
     },
     {
-      title: "Door Limit",
+      title: 'Door Limit',
       dataIndex: ECarFieldNames.DOOR_LIMIT,
       width: 70,
       render: (_, __, index) => <DoorsSelect index={index} />,
     },
     {
-      title: "Modification",
+      title: 'Modification',
       dataIndex: ECarFieldNames.MODIFICATIONS,
       width: 100,
       render: (_, __, index) => (
@@ -89,7 +112,7 @@ function App() {
       ),
     },
     {
-      title: "Cost",
+      title: 'Cost',
       dataIndex: ECarFieldNames.COST,
       width: 80,
       render: (_, __, index) => (
@@ -103,8 +126,8 @@ function App() {
       ),
     },
     {
-      title: "Cost with modifications",
-      dataIndex: "costWithModifications",
+      title: 'Cost with modifications',
+      dataIndex: 'costWithModifications',
       width: 80,
       render: (_, __, index) => (
         <CostWithModificationColumn
@@ -113,8 +136,8 @@ function App() {
       ),
     },
     {
-      title: "Action",
-      fixed: "right",
+      title: 'Action',
+      fixed: 'right',
       width: 50,
       render: (_, __, index) => (
         <Button onClick={() => remove(index)}>Remove</Button>
@@ -123,7 +146,7 @@ function App() {
   ];
 
   const onSubmit = useCallback((data: TCarsForm) => {
-    console.log("Form data", data);
+    console.log('Form data', data);
   }, []);
 
   return (
@@ -134,6 +157,7 @@ function App() {
           virtual
           scroll={{ x: 400, y: 300 }}
           columns={columns}
+          loading={isLoading}
           rowKey={ECarFieldNames.VIN_NUMBER}
           dataSource={fields}
           pagination={false}

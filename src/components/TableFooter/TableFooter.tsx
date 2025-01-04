@@ -1,8 +1,8 @@
-import { Button, Flex, Typography } from "antd";
-import { memo } from "react";
-import { ECarsFormFieldNames, TCarsForm } from "../../types";
-import { useWebWorker } from "../../hooks/useWebWorker";
-import { useFormContext, useWatch } from "react-hook-form";
+import { Flex, Typography } from 'antd';
+import { memo } from 'react';
+import { ECarsFormFieldNames, TCarsForm } from '../../types';
+import { useWebWorker } from '../../hooks/useWebWorker';
+import { useFormContext, useWatch } from 'react-hook-form';
 
 export const TableFooter = memo(() => {
   const { control } = useFormContext<TCarsForm>();
@@ -15,9 +15,8 @@ export const TableFooter = memo(() => {
   return (
     <Flex justify="flex-end" align="center" gap={16}>
       <Typography.Text>
-        All cars price: {loading ? "...Calculating" : result}
+        All cars price: {loading ? '...Calculating' : result}
       </Typography.Text>
-      <Button htmlType="submit">Submit</Button>
     </Flex>
   );
 });

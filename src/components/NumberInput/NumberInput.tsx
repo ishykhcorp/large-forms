@@ -1,7 +1,7 @@
-import { memo } from "react";
-import { useController, useFormContext } from "react-hook-form";
-import { ECarFieldNames, ECarsFormFieldNames, TCarsForm } from "../../types";
-import { InputNumber, Typography } from "antd";
+import { memo } from 'react';
+import { useController, useFormContext } from 'react-hook-form';
+import { ECarFieldNames, ECarsFormFieldNames, TCarsForm } from '../../types';
+import { InputNumber, Typography } from 'antd';
 
 type TNumberInputProps = {
   name: `${ECarsFormFieldNames.CARS}.${number}.${ECarFieldNames}`;
@@ -46,5 +46,5 @@ export const NumberInput = memo<TNumberInputProps>(
         )}
       </>
     );
-  }
+  },
 );
